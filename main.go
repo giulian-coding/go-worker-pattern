@@ -49,7 +49,7 @@ func main() {
 		}(i)
 	}
 
-	for i := 0; i <= 40; i++ {
+	for i := 1; i <= 40; i++ {
 		jobQueue <- Job{
 			ID: fmt.Sprintf("job-%d", i),
 		}
