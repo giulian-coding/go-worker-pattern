@@ -1,4 +1,4 @@
-﻿package main
+package main
 
 import (
 	"context"
@@ -12,7 +12,8 @@ import (
 )
 
 type Job struct {
-	ID string `json:"id"`
+	ID       string         `json:"id"`
+	Subtasks map[int]string `json:"subtasks"`
 }
 
 func main() {
@@ -43,6 +44,10 @@ func main() {
 					}
 					time.Sleep(time.Second)
 					log.Printf("worker %d processing %v", id, job.ID)
+					for subtaskid, subtask := range job.Subtasks {
+						log.Printf("worker %d processing %v with id %d", id, subtask, subtaskid)
+					}
+					log.Printf("worker %d finished processing %v", id, job.ID)
 					continue
 				}
 			}
@@ -52,6 +57,10 @@ func main() {
 	for i := 1; i <= 40; i++ {
 		jobQueue <- Job{
 			ID: fmt.Sprintf("job-%d", i),
+			Subtasks: map[int]string{
+				1: "first task",
+				2: "second task",
+			},
 		}
 	}
 
